@@ -1,4 +1,4 @@
-const knex = require('../conexao')
+const knex = require('../../BancoDeDados/conexao')
 const jwt = require('jsonwebtoken');
 const senhaHash = require('../senhaHash');
 
