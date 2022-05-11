@@ -40,6 +40,11 @@ const cadastrarUsuario = async (req,res) => {
     }
 }
 
+    const obterPerfil = async (req,res) =>{
+        return res.status(200).json(req.usuario)
+    }
+
 module.exports = {
-    cadastrarUsuario
+    cadastrarUsuario,
+    obterPerfil
 }

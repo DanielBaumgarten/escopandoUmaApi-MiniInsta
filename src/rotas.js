@@ -1,6 +1,6 @@
 const express = require('express');
 const {login} = require('./controladores/login');
-const { cadastrarUsuario } = require('./controladores/usuarios')
+const { cadastrarUsuario, obterPerfil } = require('./controladores/usuarios')
 const verificaLogin = require('./filtros/verificaLogin');
 
 
@@ -10,6 +10,6 @@ rotas.post('/cadastro', cadastrarUsuario)
 rotas.post('/login', login);
 
 rotas.use(verificaLogin);
-
+rotas.get('/perfil', obterPerfil)
 
 module.exports = rotas
