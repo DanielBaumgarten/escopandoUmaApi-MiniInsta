@@ -1,1 +1,1 @@
-module.exports = "senhaParaToken";
+module.exports = "senhaHash";
