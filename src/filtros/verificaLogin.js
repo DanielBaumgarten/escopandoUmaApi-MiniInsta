@@ -18,7 +18,7 @@ const verificaLogin = async (req, res, next) => {
             return res.status(404).json('Token inválido')
         }
         
-        const {senha, ...usuario} = usuarioExiste;
+        const { senha, ...usuario } = usuarioExiste;
         
         req.usuario = usuario;
         
