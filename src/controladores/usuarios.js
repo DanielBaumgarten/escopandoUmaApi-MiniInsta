@@ -1,14 +1,18 @@
 const knex = require('../../BancoDeDados/conexao');
 const bcrypt = require('bcrypt');
 
-const cadastrarUsuario = async (req,res) => {
-    const { username, senha } = req.body;
 
+const cadastrarUsuario = async (req,res) => {
+    const { username, senha, email } = req.body;
     if(!username) {
         return res.status(404).json("O campo username é obrigatório")
     }
 
     if (!senha) {
+        return res.status(404).json("O campo senha é obrigatório")
+    }
+
+    if (!email) {
         return res.status(404).json("O campo senha é obrigatório")
     }
 
@@ -20,13 +24,14 @@ const cadastrarUsuario = async (req,res) => {
         const quantidadeUsuarios = await knex('usuarios').where({ username }).first();
 
         if (quantidadeUsuarios) {
-            return res.status(400).json("O username infirmado já existe");
+            return res.status(400).json("O username informado já existe");
         }
 
         const senhaCriptografada = await bcrypt.hash(senha, 10);
         
         const usuario = await knex('usuarios').insert({
             username,
+            email,
             senha: senhaCriptografada
         });
 
@@ -48,6 +53,7 @@ const atualizarPerfil = async (req, res) => {
     let {
         nome,
         email,
+        senha,
         imagem,
         username,
         site,
@@ -58,7 +64,7 @@ const atualizarPerfil = async (req, res) => {
 
     const { id } = req.usuario;
 
-    if(!nome && !senha && !imagem && !username && !bio && !telefone && !genero && !site && !email) {
+    if(!nome && !email && !senha && !imagem && !username&& !site && !bio && !telefone && !genero) {
         return res.status(404).json("É obrigatório informar ao menos um campo para atualização");
     }
 
@@ -105,6 +111,7 @@ const atualizarPerfil = async (req, res) => {
             return res.status(400).json("O usuario não foi atualizado");
         }
 
+        return res.status(200).json('Usuario atualizado com sucesso');
     } catch (error) {
         return res.status(400).json(error.message);
     }
