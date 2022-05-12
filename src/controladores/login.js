@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const senhaHash = require('../senhaHash');
 
 const login = async(req, res) => {
-
     const { username, senha } = req.body;
 
     if(!username || !senha) {
@@ -25,18 +24,19 @@ const login = async(req, res) => {
         }
 
         const dadosTokenUsuario = {
-            id: usuario_id,
+            id: usuario.id,
             username: usuario.username
         }
 
-        const token = jwt.sign(dadosTokenUsuario, senhaHash, { expiresIn: '100h'});
+        const token = jwt.sign(dadosTokenUsuario, senhaHash, { expiresIn: '100h' });
 
-        const { senha, ...dadosUsuario} = usuario;
+        const { senha: _, ...dadosUsuario} = usuario;
 
         return res.status(200).json({
             usuario: dadosUsuario,
             token
         });
+
     }
     catch (error) {
         return res.status(400).json(error.message);
