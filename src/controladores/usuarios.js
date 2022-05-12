@@ -13,7 +13,7 @@ const cadastrarUsuario = async (req,res) => {
     }
 
     if (!email) {
-        return res.status(404).json("O campo senha é obrigatório")
+        return res.status(404).json("O campo email é obrigatório")
     }
 
     if (senha.length < 5) {
