@@ -11,7 +11,9 @@ const verificaLogin = async (req, res, next) => {
     
     try {
         const token = authorization.replace('Bearer','').trim();
+
         const { id } = jwt.verify(token, senhaHash);
+
         const usuarioExiste = await knex('usuarios').where({ id }).first();
         
         if (!usuarioExiste){
@@ -22,7 +24,7 @@ const verificaLogin = async (req, res, next) => {
         
         req.usuario = usuario;
         
-        next()
+        next();
     } catch (error) {
         return res.status(400).json(error.message);
     }

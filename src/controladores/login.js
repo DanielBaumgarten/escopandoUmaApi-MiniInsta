@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const senhaHash = require('../senhaHash');
 
-const login = async(req, res) => {
+const login = async (req, res) => {
     const { username, senha } = req.body;
 
     if(!username || !senha) {
@@ -18,7 +18,7 @@ const login = async(req, res) => {
         }
 
         const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-
+        
         if(!senhaCorreta) {
             return res.status(400).json("email e senha não confere");
         }
@@ -27,8 +27,8 @@ const login = async(req, res) => {
             id: usuario.id,
             username: usuario.username
         }
-
-        const token = jwt.sign(dadosTokenUsuario, senhaHash, { expiresIn: '100h' });
+      
+        const token = jwt.sign(dadosTokenUsuario, senhaHash, { expiresIn: '1000h' });
 
         const { senha: _, ...dadosUsuario} = usuario;
 

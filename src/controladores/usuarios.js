@@ -64,7 +64,7 @@ const atualizarPerfil = async (req, res) => {
 
     const { id } = req.usuario;
 
-    if(!nome && !email && !senha && !imagem && !username&& !site && !bio && !telefone && !genero) {
+    if(!nome && !email && !senha && !imagem && !username && !site && !bio && !telefone && !genero) {
         return res.status(404).json("É obrigatório informar ao menos um campo para atualização");
     }
 
@@ -93,9 +93,7 @@ const atualizarPerfil = async (req, res) => {
             }
         }
 
-        const usuarioAtualizado = await knex('usuarios')
-         .where({ id })
-         .uptade({ 
+        const usuarioAtualizado = await knex('usuarios').where({ id }).update({ 
             nome,
             email,
             senha,
