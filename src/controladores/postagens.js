@@ -101,15 +101,14 @@ const comentar = async (req, res) => {
 }
 
 const feed = async (req, res) => {
-    const { id } = req.usuarios;
+    const { id } = req.usuario;
     const { offset } = req.query;
  
-
     const paginaZero = offset ? offset :0
 
     try {
-        const postagens =  knex('postagens')
-        .where('usuario_id', '!==', 'id')
+        const postagens = await knex('postagens')
+        .where('usuario_id', '!=' , id)
         .limit(10)
         .offset(paginaZero);
         
@@ -120,32 +119,32 @@ const feed = async (req, res) => {
         
             for ( const postagem of postagens ) {
                 const usuario = await knex('usuarios')
-                .where({ id: postagem.id })
-                .select('imagem', 'verificado')
-                .first();
+                    .where({ id: postagem.usuario_id })
+                    .select('imagem', 'username', 'verificado')
+                    .first();
                 postagem.usuario = usuario;
                 
-                const fotos = await knex('postagem_fotos')
-                .where({postagem_id: postagem_id})
-                .select('imagem');
+                const fotos = await knex('postagens_fotos')
+                    .where({postagem_id: postagem.id})
+                    .select('imagem');
                 postagem.fotos = fotos;
                 
                 const curtidas = await knex('postagem_curtidas')
-                .where({ postagem_id: postagem.id})
-                .select('usuario_id');
+                    .where({ postagem_id: postagem.id})
+                    .select('usuario_id');
                 postagens.curtidas = curtidas.length;
 
                 postagem.curtidasPormim = curtidas.find(curtida => curtida.usuario_id === id) ? true : false;
 
                 const comentarios = await knex('postagem_comentarios')
-                    .leftJoin('usuarios', 'usuario.id', 'postagem_comentarios.usuario_id')
+                    .leftJoin('usuarios', 'usuarios.id', 'postagem_comentarios.usuario_id')
                     .where({postagem_id: postagem.id })
-                    .select('usuarios.username', 'postagem_comentario.texto');
+                    .select('usuarios.username', 'postagem_comentarios.texto');
                 postagem.comentarios = comentarios;
             }            
-            
+            return res.status(200).json(postagens)
     } catch (error) {
-        return res.status(400).json('error.message');
+        return res.status(400).json(error.message);
     }
 } 
 
