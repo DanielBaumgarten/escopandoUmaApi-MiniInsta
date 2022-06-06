@@ -55,6 +55,6 @@ create table postagem_curtidas (
     usuario_id int not null,
     postagem_id int not null,
     data timestamptzdefault now(),
-     foreign key (postagem_id) references postagens (id),
+    foreign key (postagem_id) references postagens (id),
     foreign key (usuario_id) references usuario (id)    
 )
