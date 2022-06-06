@@ -1,9 +1,9 @@
 const knex = require('../../BancoDeDados/conexao');
 const bcrypt = require('bcrypt');
 
-
 const cadastrarUsuario = async (req,res) => {
     const { username, senha, email } = req.body;
+
     if(!username) {
         return res.status(404).json("O campo username é obrigatório")
     }
@@ -17,7 +17,7 @@ const cadastrarUsuario = async (req,res) => {
     }
 
     if (senha.length < 5) {
-        return res.status(404).json("A senha deve conter, no mínimo, 5 caracteres")
+        return res.status(404).json("A senha deve conter no mínimo 5 caracteres")
     }
 
     try {

@@ -120,7 +120,7 @@ const feed = async (req, res) => {
             for ( const postagem of postagens ) {
                 const usuario = await knex('usuarios')
                     .where({ id: postagem.usuario_id })
-                    .select('imagem', 'username', 'verificado')
+                    .select('username','imagem', 'verificado')
                     .first();
                 postagem.usuario = usuario;
                 
