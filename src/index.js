@@ -9,10 +9,12 @@ app.use(express.json());
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000"),
-    res.header("Acess-Control-Allow-Methods", 'GET,PUT,POST')
+    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST')
     app.use(cors());
     next();
 })
 app.use(rotas);
 
-app.listen(3000);
+// app.listen(8000);
+
+app.listen(process.env.PORT || 3000);
